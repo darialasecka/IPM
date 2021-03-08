@@ -7,7 +7,7 @@
       <input type="email" id="email" name="email" placeholder="example@example.com"/> </br> </br>
 
       <label for="country_code"> Postal code: </label>
-      <input type="text" id="country_code" name="country_code" pattern="[0-9]{2}\-[0-9]{3}" title="format xx-xxx" placeholder="11-222"/> </br> </br>
+      <input type="text" id="country_code" name="country_code" pattern="^\d{2}-\d{3}$" title="format xx-xxx" placeholder="11-222"/> </br> </br>
 
       <label for="NIP_number"> NIP: </label>
       <input type="text" id="NIP_number" name="NIP_number" pattern="^((\d{3}[- ]\d{3}[- ]\d{2}[- ]\d{2})|(\d{3}[- ]\d{2}[- ]\d{2}[- ]\d{3}))$" title="format xxx-xx-xx-xxx" placeholder="106-00-00-062"/> </br> </br>
@@ -15,11 +15,11 @@
       <label for="personal_id"> ID number: </label>
       <input type="text" id="personal_id" name="personal_id" placeholder="11-222"/> </br> </br>
 
-      <label for="www_website"> WWW website: </label>
-      <input type="text" id="www_website" name="www_website" placeholder="11-222"/> </br> </br>
-
       <label for="IPv4_address"> IPv4: </label>
       <input type="text" id="IPv4_address" name="IPv4_address" pattern="[((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}]$" placeholder="255.255.255.255"/> </br> </br>
+
+      <label for="www_website"> WWW website: </label>
+      <input type="url" id="www_website" name="www_website" placeholder="http://example.com"/> </br> </br>
 
       <label for="source"> Directory: </label>
       <input type="text" id="source" name="source" placeholder="11-222"/> </br> </br>
