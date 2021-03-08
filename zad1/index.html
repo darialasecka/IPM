@@ -10,7 +10,7 @@
       <input type="text" id="country_code" name="country_code" pattern="^\d{2}-\d{3}$" title="format xx-xxx" placeholder="11-222"/> </br> </br>
 
       <label for="NIP_number"> NIP: </label>
-      <input type="text" id="NIP_number" name="NIP_number" pattern="^((\d{3}[- ]\d{3}[- ]\d{2}[- ]\d{2})|(\d{3}[- ]\d{2}[- ]\d{2}[- ]\d{3}))$" title="format xxx-xx-xx-xxx" placeholder="106-00-00-062"/> </br> </br>
+      <input type="text" id="NIP_number" name="NIP_number" pattern="^((\d{3}[-]\d{3}[-]\d{2}[-]\d{2})|(\d{3}[-]\d{2}[-]\d{2}[-]\d{3}))$" title="format xxx-xx-xx-xxx" placeholder="106-00-00-062"/> </br> </br>
 
       <label for="personal_id"> ID number: </label>
       <input type="text" id="personal_id" name="personal_id" pattern="[A-Z]{3}[0-9]{6}" title="Invalid id format" placeholder="aaa123456"/> </br> </br>
@@ -22,10 +22,10 @@
       <input type="url" id="www_website" name="www_website" pattern="https?://.+" title="Include http://" placeholder="http://example.com"/> </br> </br>
 
       <label for="path"> Directory: </label>
-      <input type="text" id="path" name="path" pattern="^(?:[a-z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+$" title="invalid path format" placeholder="c:\windows\temp"/> </br> </br>
+      <input type="text" id="path" name="path" pattern="[a-zA-Z]:(\[a-z]+)+" title="invalid path format" placeholder="c:\windows\temp"/> </br> </br>
 
       <label for="path2"> Directory2: </label>
-      <input type="text" id="path2" name="path2" pattern="^(?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+$" title="invalid path format" placeholder="C:\WinDowS\temp"/> </br> </br>
+      <input type="text" id="path2" name="path2" pattern="[a-zA-Z]:(\[A-Za-z]+)+" title="invalid path format" placeholder="C:\WinDowS\temp"/> </br> </br>
 
       <label for="path3"> /etc/: </label>
       <input type="text" id="path3" name="path3" pattern="/ect/.+$" title="/ect/rest_of_the_path" placeholder="/ect/hosts"/> </br> </br>
