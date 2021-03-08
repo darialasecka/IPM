@@ -22,20 +22,21 @@
       <input type="url" id="www_website" name="www_website" placeholder="http://example.com"/> </br> </br>
 
       <label for="source"> Directory: </label>
-      <input type="text" id="source" name="source" placeholder="11-222"/> </br> </br>
+      <input type="text" id="source" name="source" text="invalid source format" placeholder="C:\windows\temp"/> </br> </br>
 
       <label for="source2"> Directory2: </label>
-      <input type="text" id="source2" name="source2" placeholder="11-222"/> </br> </br>
+      <input type="text" id="source2" name="source2" text="invalid source format" placeholder="C:\WinDowS\temp"/> </br> </br>
 
       <label for="source3"> /etc/: </label>
-      <input type="text" id="source3" name="source3" placeholder="11-222"/> </br> </br>
+      <input type="text" id="source3" name="source3" text="invalid source format" placeholder="/ect/hosts"/> </br> </br>
 
       <label for="IPv6_address"> IPv6 </label>
-      <input type="text" id="IPv6_address" name="IPv6_address" pattern="((^|:)([0-9a-fA-F]{0,4})){1,8}$" placeholder="2001:0db8:85a3:0000:0000:8a2e:0370:7334"/> </br> </br>
+      <input type="text" id="IPv6_address" name="IPv6_address" pattern="((^|:)([0-9a-fA-F]{0,4})){1,8}$" text="format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx" placeholder="2001:0db8:85a3:0000:0000:8a2e:0370:7334"/> </br> </br>
 
       <label for="phone_number"> Phone number: </label>
-      <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{9}$" placeholder="11-222"/> </br> </br>
+      <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{9}$" text="format xxxxxxxxx"placeholder="123123123"/> </br> </br>
 
+      <input type="submit" id="submit" name="submit" value="Submit"></input>
     </form>
   </body>
 </html>
