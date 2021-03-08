@@ -13,7 +13,7 @@
       <input type="text" id="NIP_number" name="NIP_number" pattern="^((\d{3}[- ]\d{3}[- ]\d{2}[- ]\d{2})|(\d{3}[- ]\d{2}[- ]\d{2}[- ]\d{3}))$" title="format xxx-xx-xx-xxx" placeholder="106-00-00-062"/> </br> </br>
 
       <label for="personal_id"> ID number: </label>
-      <input type="text" id="personal_id" name="personal_id" placeholder="11-222"/> </br> </br>
+      <input type="text" id="personal_id" name="personal_id" pattern="[A-Z]{3}[0-9]{6}" title="Invalid id format" placeholder="aaa123456"/> </br> </br>
 
       <label for="IPv4_address"> IPv4: </label>
       <input type="text" id="IPv4_address" name="IPv4_address" pattern="[((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}]$" placeholder="255.255.255.255"/> </br> </br>
@@ -22,19 +22,19 @@
       <input type="url" id="www_website" name="www_website" placeholder="http://example.com"/> </br> </br>
 
       <label for="source"> Directory: </label>
-      <input type="text" id="source" name="source" text="invalid source format" placeholder="C:\windows\temp"/> </br> </br>
+      <input type="text" id="source" name="source" pattern="^(?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+$" title="invalid source format" placeholder="C:\windows\temp"/> </br> </br>
 
       <label for="source2"> Directory2: </label>
-      <input type="text" id="source2" name="source2" text="invalid source format" placeholder="C:\WinDowS\temp"/> </br> </br>
+      <input type="text" id="source2" name="source2" title="invalid source format" placeholder="C:\WinDowS\temp"/> </br> </br>
 
-      <label for="source3"> /etc/: </label>
-      <input type="text" id="source3" name="source3" text="invalid source format" placeholder="/ect/hosts"/> </br> </br>
+      <label for="source3"> /etc/: </label> #doesnt work
+      <input type="text" id="source3" name="source3" pattern="^/|(/ect/)/|([A-Za-z_0-9-])+$" title="/ect/rest_of_the_path" placeholder="/ect/hosts"/> </br> </br>
 
       <label for="IPv6_address"> IPv6 </label>
-      <input type="text" id="IPv6_address" name="IPv6_address" pattern="((^|:)([0-9a-fA-F]{0,4})){1,8}$" text="format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx" placeholder="2001:0db8:85a3:0000:0000:8a2e:0370:7334"/> </br> </br>
+      <input type="text" id="IPv6_address" name="IPv6_address" pattern="((^|:)([0-9a-fA-F]{0,4})){1,8}$" title="format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx" placeholder="2001:0db8:85a3:0000:0000:8a2e:0370:7334"/> </br> </br>
 
       <label for="phone_number"> Phone number: </label>
-      <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{9}$" text="format xxxxxxxxx"placeholder="123123123"/> </br> </br>
+      <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{9}$" title="format xxxxxxxxx"placeholder="123123123"/> </br> </br>
 
       <input type="submit" id="submit" name="submit" value="Submit"></input>
     </form>
