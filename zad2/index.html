@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <form>
+
+      <label for="email"> Email: </label>
+      <input type="email" id="email" name="email" placeholder="example@example.com"/> </br> </br>
+
+      <label for="country_code"> Postal code: </label>
+      <input type="text" id="country_code" name="country_code" pattern="^\d{2}-\d{3}$" title="format xx-xxx" placeholder="11-222"/> </br> </br>
+
+      <label for="NIP_number"> NIP: </label>
+      <input type="text" id="NIP_number" name="NIP_number" pattern="^((\d{3}[-]\d{3}[-]\d{2}[-]\d{2})|(\d{3}[-]\d{2}[-]\d{2}[-]\d{3}))$" title="format xxx-xx-xx-xxx" placeholder="106-00-00-062"/> </br> </br>
+
+      <label for="personal_id"> ID number: </label>
+      <input type="text" id="personal_id" name="personal_id" pattern="[A-Z]{3}[0-9]{6}" title="Invalid id format" placeholder="aaa123456"/> </br> </br>
+
+      <label for="IPv4_address"> IPv4: </label>
+      <input type="text" id="IPv4_address" name="IPv4_address" pattern="[((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}]$" placeholder="255.255.255.255"/> </br> </br>
+
+      <label for="www_website"> WWW website: </label>
+      <input type="url" id="www_website" name="www_website" pattern="https?://.+" title="Include http://" placeholder="http://example.com"/> </br> </br>
+
+      <label for="path"> Directory: </label>
+      <input type="text" id="path" name="path" pattern="[a-zA-Z]:(\[a-z]+)+" title="invalid path format" placeholder="c:\windows\temp"/> </br> </br>
+
+      <label for="path2"> Directory2: </label>
+      <input type="text" id="path2" name="path2" pattern="[a-zA-Z]:(\[A-Za-z]+)+" title="invalid path format" placeholder="C:\WinDowS\temp"/> </br> </br>
+
+      <label for="path3"> /etc/: </label>
+      <input type="text" id="path3" name="path3" pattern="/ect/.+$" title="/ect/rest_of_the_path" placeholder="/ect/hosts"/> </br> </br>
+
+      <label for="IPv6_address"> IPv6 </label>
+      <input type="text" id="IPv6_address" name="IPv6_address" pattern="((^|:)([0-9a-fA-F]{0,4})){1,8}$" title="format xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx" placeholder="2001:0db8:85a3:0000:0000:8a2e:0370:7334"/> </br> </br>
+
+      <label for="phone_number"> Phone number: </label>
+      <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{9}$" title="format xxxxxxxxx"placeholder="123123123"/> </br> </br>
+
+      <input type="submit" id="submit" name="submit" value="Submit"></input>
+    </form>
+  </body>
+</html>
