@@ -19,13 +19,13 @@
       <input type="text" id="IPv4_address" name="IPv4_address" pattern="[((^|\.)((25[0-5])|(2[0-4]\d)|(1\d\d)|([1-9]?\d))){4}]$" placeholder="255.255.255.255"/> </br> </br>
 
       <label for="www_website"> WWW website: </label>
-      <input type="url" id="www_website" name="www_website" pattern="https?://.+" title="Include http://" placeholder="http://example.com"/> </br> </br>
+      <input type="text" id="www_website" name="www_website" pattern="(http[s]*://)([a-zA-Z0-9-]+\.[0-9a-zA-Z]+)[?/]" placeholder="http://example.com"/> </br> </br>
 
       <label for="path"> Directory: </label>
-      <input type="text" id="path" name="path" pattern="[a-zA-Z]:(\[a-z]+)+" title="invalid path format" placeholder="c:\windows\temp"/> </br> </br>
+      <input type="text" id="path" name="path" pattern="^[a-zA-Z]:\\(windows|winnt|win|dos|msdos)\\?[a-z]*" title="invalid path format" placeholder="c:\windows\temp"/> </br> </br>
 
       <label for="path2"> Directory2: </label>
-      <input type="text" id="path2" name="path2" pattern="[a-zA-Z]:(\[A-Za-z]+)+" title="invalid path format" placeholder="C:\WinDowS\temp"/> </br> </br>
+      <input type="text" id="path2" name="path2" pattern="^[a-zA-Z]:\\([Ww][Ii][Nn][Dd][Oo][Ww][Ss]|[Ww][Ii][Nn][Nn][Tt]|[Ww][Ii][Nn]|[Dd][Oo][Ss]|[Mm][Ss][Dd][Oo][Ss])\\?[a-zA-Z]*" title="invalid path format" placeholder="C:\WinDowS\temp"/> </br> </br>
 
       <label for="path3"> /etc/: </label>
       <input type="text" id="path3" name="path3" pattern="/ect/.+$" title="/ect/rest_of_the_path" placeholder="/ect/hosts"/> </br> </br>
