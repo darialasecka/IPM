@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8"/>
-  <style>
+    <meta charset="utf-8"/>
+    <style>
         body{
             margin: 0;padding: 0;
             align-items: center;
@@ -12,20 +12,23 @@
             color: white;
         }
         div {
-            height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        canvas {
-            border: 1px solid white;
+        button {
+            position:absolute;
+            top:50px;
+            right: 120px;
+            zindex:2;
         }
     </style>
 </head>
 <body>
-<div>
-  <canvas></canvas>
-  <script src="zad3.js"></script>
-</div>
+    <div>
+        <canvas></canvas>
+        <script src="zad3.js"></script>
+        <button onclick="generateBlock()">Generuj klocek</button>
+    </div>
 </body>
 </html>
