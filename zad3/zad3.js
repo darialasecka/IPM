@@ -13,13 +13,11 @@ const height = canvas.height;
 var blocks = [];
 
 function drawPlatform(){
-    ctx.fillStyle = "white";
-    ctx.fillRect(0,0, width, height);
 
     ctx.fillStyle = "black";
     ctx.fillRect(0, height - 0.2*height, 0.8*width, 0.2*height);
-
 }
+drawPlatform();
 
 function generateBlock()
 {
@@ -29,8 +27,8 @@ function generateBlock()
         w: 100, //width
         h: 100, //height
         color: color,
-        posX: width - 200,
-        posY:  200,
+        x: width - 200,
+        y:  200,
     });
 
     drawBlocks();
@@ -39,20 +37,76 @@ function generateBlock()
 function drawBlocks()
 {
   var i, len = blocks.length;
-  for(i = 0; i < len;i++)
+  for(i = 0; i < len; i++)
   {
     ctx.fillStyle = blocks[i].color;
-    ctx.fillRect(blocks[i].posX, blocks[i].posY, blocks[i].w, blocks[i].h)
+    ctx.fillRect(blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
   }
 }
 
+    function mouseDown(e)
+    {
+    	var i, len = blocks.length;
+    	var bRect = canvas.getBoundingClientRect();
+    	mouseX = (e.clientX - bRect.left);
+    	mouseY = (e.clientY - bRect.top);
+    	for (i=0; i < len; i++) {
+    		if(inCircle(blocks[i], mouseX, mouseY)) 
+    		{
+    			drag = true;
+    			dragHoldX = mouseX - blocks[i].x;
+    			dragHoldY = mouseY - blocks[i].y;
+    			dragIndex = i;
+    		}
+    	}
+    	if (drag) 
+    	{
+    		window.addEventListener("mousemove", mouseMove, false);
+    	}
+    	canvas.removeEventListener("mousedown", mouseDown, false);
+    	window.addEventListener("mouseup", mouseUp, false);
+    	return false;		
+    }
 
-function update(){
-    drawPlatform();
-}
+    function mouseMove(e)
+    {
+    	var posX, posY;
+     
+    	var bRect = canvas.getBoundingClientRect();
+    	mouseX = (e.clientX - bRect.left);
+    	mouseY = (e.clientY - bRect.top);
+    	
+    	posX = mouseX - dragHoldX;
+    	posY = mouseY - dragHoldY;
+    	
+    	blocks[dragIndex].x = posX;
+    	blocks[dragIndex].y = posY;
+    	
+    	ctx.clearRect(0,0,canvas.width, canvas.height);
+    	drawPlatform();
+    	drawBlocks();
+    }
+    function mouseUp()
+    {
+    	canvas.addEventListener("mousedown", mouseDown, false);
+    	window.removeEventListener("mouseup", mouseUp, false);
+    	if (drag) 
+    	{
+    		drag = false;
+    		window.removeEventListener("mousemove", mouseMove, false);
+    	}
+    }
+    canvas.addEventListener("mousedown", mouseDown, false);
 
-function drawCanvas() {
-    drawPlatform();
-}
-
-drawCanvas();
+    function inCircle(circle,mx,my)
+    {
+    	var imageData = ctx.getImageData(mx, my, 1, 1), index = (mx + my * imageData.width) * 4;
+    	if (imageData.data[3] > 0 && circle.color=="rgb(" + imageData.data[0] + "," + imageData.data[1] + "," + imageData.data[2] +")") 
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		return false;
+    	}
+    }
