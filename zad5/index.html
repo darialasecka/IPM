@@ -45,9 +45,7 @@
         objectStore.createIndex("last_name", "last_name", {unique:false});
         objectStore.createIndex("email", "email", {unique:false});
 
-        objectStore.transaction.oncomplete = function(event) {
-
-        };
+        objectStore.transaction.oncomplete = function(event) { };
       };
 
       document.getElementById('addContact').onsubmit = function(e) {
@@ -67,7 +65,7 @@
           console.log("All done!");
         };
 
-        transaction.onerror = function(event){
+        transaction.onerror = function(event) {
           console.dir(event);
         };
 
@@ -75,7 +73,7 @@
 
         var request = contactsObjectStore.add(contact);
 
-        request.onsuccess = function(event){
+        request.onsuccess = function(event) {
           console.log("Contact added successfully.");
         };
 
@@ -83,11 +81,14 @@
 
       }
 
-      document.getElementById('del').onclick = function(e){
+      document.getElementById('del').onclick = function(e) {
         var del_id = parseInt(document.getElementById('del_id').value);
-        var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
 
-        request.onsuccess = function(event){
+        var request = db.transaction(["contacts"], "readwrite")
+          .objectStore("contacts")
+          .delete(del_id);
+
+        request.onsuccess = function(event) {
           window.alert("Contact " + del_id + " deleted.");
         }
 
@@ -97,19 +98,24 @@
       function updateTable() {
         document.getElementById("contacts-table-body").innerHTML = "";
 
-        var request = db.transaction("contacts").objectStore("contacts").openCursor();
+        var request = db.transaction("contacts")
+          .objectStore("contacts")
+          .openCursor();
 
-        request.onerror = function(event){
+        request.onerror = function(event) {
           console.dir(event);
         };
 
-        request.onsuccess = function(event){
+        request.onsuccess = function(event) {
 
         cursor = event.target.result;
 
         if(cursor) {
-          document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
-            + cursor.value.last_name + "</td><td>" + cursor.value.email + "</td></tr>";
+          document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
+            + "</td><td>" + cursor.value.name
+            + "</td><td>" + cursor.value.last_name
+            + "</td><td>" + cursor.value.email
+            + "</td></tr>";
 
             cursor.continue();
         }
@@ -151,7 +157,12 @@
 <div class="right-div">
   <table id="contacts-table" class="styled-table">
     <thead>
-    <tr><th>ID</th><th>Name</th><th>Last name</th><th>Email</th></tr>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Last name</th>
+      <th>Email</th>
+    </tr>
     </thead>
     <tbody id="contacts-table-body">
     </tbody>
