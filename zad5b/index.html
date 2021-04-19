@@ -136,12 +136,12 @@
                 + "</td><td>" + cursor.value.address
                 + "</td><td>" + cursor.value.phone_number
                 + "</td><td>" + cursor.value.email
-                + "</td><td><button id=\"delButton\" value=\"" + cursor.key + "\">Delete</button>"
+                + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
                 + "</td></tr>";
 
-              document.getElementById('delButton').onclick = function(e){
-                var id_del = parseInt(document.getElementById('delButton').value);
-                var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(id_del);
+              document.getElementById('del').onclick = function(e){
+                var del_id = parseInt(document.getElementById('del').value);
+                var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
                 updateTable();
               }
               cursor.continue();
@@ -174,12 +174,12 @@
             + "</td><td>" + cursor.value.address
             + "</td><td>" + cursor.value.phone_number
             + "</td><td>" + cursor.value.email
-            + "</td><td><button id=\"delButton\" value=\"" + cursor.key + "\">Delete</button>"
+            + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
             + "</td></tr>";
 
-            document.getElementById('delButton').onclick = function(e){
-              var id_del = parseInt(document.getElementById('delButton').value);
-              var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(id_del);
+            document.getElementById('del').onclick = function(e){
+              var del_id = parseInt(document.getElementById('del').value);
+              var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
               updateTable();
             }
           cursor.continue();
