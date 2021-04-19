@@ -107,27 +107,27 @@
         };
 
         request.onsuccess = function(event) {
+          cursor = event.target.result;
 
-        cursor = event.target.result;
-
-        if(cursor) {
-          document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
-            + "</td><td>" + cursor.value.name
-            + "</td><td>" + cursor.value.last_name
-            + "</td><td>" + cursor.value.id_number
-            + "</td><td>" + cursor.value.address
-            + "</td><td>" + cursor.value.city
-            + "</td><td>" + cursor.value.code
-            + "</td><td>" + cursor.value.phone_number
-            + "</td><td>" + cursor.value.email
-            + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
-            + "</td></tr>";
+          if(cursor) {
+            document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
+              + "</td><td>" + cursor.value.name
+              + "</td><td>" + cursor.value.last_name
+              + "</td><td>" + cursor.value.id_number
+              + "</td><td>" + cursor.value.address
+              + "</td><td>" + cursor.value.city
+              + "</td><td>" + cursor.value.code
+              + "</td><td>" + cursor.value.phone_number
+              + "</td><td>" + cursor.value.email
+              + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
+              + "</td></tr>";
 
             document.getElementById('del').onclick = function(e){
               var del_id = parseInt(document.getElementById('del').value);
               var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
               updateTable();
-            }
+          }
+
           cursor.continue();
         }
       };
@@ -157,8 +157,7 @@
                 cursor.value.city.toLowerCase().includes(search) ||
                 cursor.value.code.toLowerCase().includes(search) ||
                 cursor.value.phone_number.toLowerCase().includes(search) ||
-                cursor.value.email.toLowerCase().includes(search)
-              )) {
+                cursor.value.email.toLowerCase().includes(search) )) {
 
               document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
                 + "</td><td>" + cursor.value.name
@@ -171,14 +170,15 @@
                 + "</td><td>" + cursor.value.email
                 + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
                 + "</td></tr>";
-
-              document.getElementById('del').onclick = function(e){
-                var del_id = parseInt(document.getElementById('del').value);
-                var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
-                updateTable();
-              }
-              cursor.continue();
             }
+
+            document.getElementById('del').onclick = function(e){
+              var del_id = parseInt(document.getElementById('del').value);
+              var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
+              updateTable();
+            }
+
+            cursor.continue();
           }
         };
       }
