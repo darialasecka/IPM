@@ -119,21 +119,14 @@
               + "</td><td>" + cursor.value.code
               + "</td><td>" + cursor.value.phone_number
               + "</td><td>" + cursor.value.email
-              + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
+              + "</td><td><button onclick=\"delContact(" + cursor.key + ")\">Delete</button>"
               + "</td></tr>";
-
-            document.getElementById('del').onclick = function(e){
-              var del_id = parseInt(document.getElementById('del').value);
-              var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
-              updateTable();
-          }
 
           cursor.continue();
         }
       };
-    }
 
-    document.getElementById('search_button').onclick = function(e){
+      document.getElementById('search_button').onclick = function(e){
         var search = document.getElementById('search_input').value;
         if (!search) {
           search = "";
@@ -169,22 +162,25 @@
                 + "</td><td>" + cursor.value.code
                 + "</td><td>" + cursor.value.phone_number
                 + "</td><td>" + cursor.value.email
-                + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
+                + "</td><td><button onClick=\"delContact(" + cursor.key + ")>Delete</button>"
                 + "</td></tr>";
-            }
-
-            document.getElementById('del').onclick = function(e){
-              var del_id = parseInt(document.getElementById('del').value);
-              var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
-              updateTable();
             }
 
             cursor.continue();
           }
         };
       }
+    }
   }
 
+function delContact(id) {
+  var objectStore = db.transaction(["contacts"], "readwrite").objectStore("contacts");
+  var request = objectStore.delete(id);
+  request.onsuccess = function(event) {
+      console.log("Deleted contact");
+      window.location.reload(false);
+  };
+}
 </script>
 </head>
 
