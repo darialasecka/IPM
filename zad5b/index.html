@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
   <link rel="stylesheet" href="styles.css">
-  <script scr="zad5.js">
+  <script>
     // In the following line, you should include the prefixes of implementations you want to test.
     window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     // DON'T use "var indexedDB = ..." if you're not in a function.
@@ -43,6 +43,9 @@
 
         objectStore.createIndex("name", "name", {unique:false});
         objectStore.createIndex("last_name", "last_name", {unique:false});
+        objectStore.createIndex("id_number", "last_name", {unique:false});
+        objectStore.createIndex("address", "last_name", {unique:false});
+        objectStore.createIndex("phone_number", "last_name", {unique:false});
         objectStore.createIndex("email", "email", {unique:false});
 
         objectStore.transaction.oncomplete = function(event) { };
@@ -51,11 +54,17 @@
       document.getElementById('addContact').onsubmit = function(e) {
         var cname = document.getElementById('name').value;
         var clast_name = document.getElementById('last_name').value;
+        var cid_number = document.getElementById('id_number').value;
+        var caddress = document.getElementById('address').value;
+        var cphone_number = document.getElementById('phone_number').value;
         var cemail = document.getElementById('email').value;
 
         const contact = {
           name: cname,
           last_name: clast_name,
+          id_number: cid_number,
+          address: caddress,
+          phone_number: cphone_number,
           email: cemail
         }
 
@@ -81,20 +90,6 @@
 
       }
 
-      document.getElementById('del').onclick = function(e) {
-        var del_id = parseInt(document.getElementById('del_id').value);
-
-        var request = db.transaction(["contacts"], "readwrite")
-          .objectStore("contacts")
-          .delete(del_id);
-
-        request.onsuccess = function(event) {
-          window.alert("Contact " + del_id + " deleted.");
-        }
-
-        updateTable();
-      }
-
       function updateTable() {
         document.getElementById("contacts-table-body").innerHTML = "";
 
@@ -111,19 +106,59 @@
         cursor = event.target.result;
 
         if(cursor) {
+        console.log(cursor.key)
           document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
             + "</td><td>" + cursor.value.name
             + "</td><td>" + cursor.value.last_name
+            + "</td><td>" + cursor.value.id_number
+            + "</td><td>" + cursor.value.address
+            + "</td><td>" + cursor.value.phone_number
             + "</td><td>" + cursor.value.email
-            + "</td><td><button onclick = deleterow(this)>Delete</button></td></tr>";
-              $(rows).appendTo("#list tbody");
+            + "</td><td><button onclick = deleteRow(this)>Delete</button></td></tr>";
             + "</td></tr>";
 
             cursor.continue();
         }
       };
+
+      document.getElementById('filterButton').onclick = function(e){
+        var filter = document.getElementById('filterInput').value;
+        if (!filter) {
+          filter = "";
+        }
+        filter = filter.toLowerCase();
+
+        document.getElementById("clients-table-body").innerHTML = "";
+        var request = db.transaction("clients").objectStore("clients").openCursor();
+        request.onerror = function(event){
+          console.dir(event);
+        };
+        request.onsuccess = function(event){
+          cursor = event.target.result;
+
+          if(cursor) {
+            if
+              ((cursor.key.toString().localeCompare(filter) == 0 ||
+              cursor.value.name.toLowerCase().includes(filter) ||
+              cursor.value.last_name.toLowerCase().includes(filter) ||
+              cursor.value.email.toLowerCase().includes(filter) ||
+              )) {
+              document.getElementById("clients-table-body").innerHTML += "<tr><td>" + cursor.key +
+                "</td><td>" + cursor.value.name
+                  + "</td><td>" + cursor.value.last_name
+                  + "</td><td>" + cursor.value.email
+                  + "</td></tr>";
+                cursor.continue();
+            }
+          }
+        };
+      }
     }
   }
+
+function deleteRow(el, del_id) {
+  console.log(del_id);
+}
 
 </script>
 </head>
@@ -140,6 +175,15 @@
       <label for="last_name"> Last name: </label>
       <input type="text" id="last_name" name="last_name" placeholder="Kowalski" required/> </br> </br>
 
+      <label for="id_number"> ID number: </label>
+      <input type="text" id="id_number" name="id_number" pattern="[A-Z]{3}[0-9]{6}" placeholder="aaa123456" required/> </br> </br>
+
+      <label for="address"> Address: </label>
+      <input type="text" id="address" name="address" placeholder="Stefanowskiego 4/20" required/> </br> </br>
+
+      <label for="phone_number"> Phone number: </label>
+      <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{9}$" title="format xxxxxxxxx"placeholder="123123123" required/> </br> </br>
+
       <label for="email"> Email: </label>
       <input type="email" id="email" name="email" placeholder="example@example.com" required/> </br> </br>
 
@@ -154,6 +198,15 @@
 
     <button id="del">Delete</button>
   </div>
+
+  <p>
+  <fieldset id="searchForm">
+    <legend>Search</legend>
+    <label>Keyword</label>
+    <input id="filterInput">
+    <button id="filterButton">Filter</button>
+  </fieldset>
+  </p>
 </div>
 
 <div class="right-div">
@@ -163,7 +216,11 @@
       <th>ID</th>
       <th>Name</th>
       <th>Last name</th>
+      <th>ID nuber</th>
+      <th>Address</th>
+      <th>Phone number</th>
       <th>Email</th>
+      <th> </th>
     </tr>
     </thead>
     <tbody id="contacts-table-body">
