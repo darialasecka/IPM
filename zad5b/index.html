@@ -43,9 +43,11 @@
 
         objectStore.createIndex("name", "name", {unique:false});
         objectStore.createIndex("last_name", "last_name", {unique:false});
-        objectStore.createIndex("id_number", "last_name", {unique:false});
-        objectStore.createIndex("address", "last_name", {unique:false});
-        objectStore.createIndex("phone_number", "last_name", {unique:false});
+        objectStore.createIndex("id_number", "id_number", {unique:false});
+        objectStore.createIndex("address", "address", {unique:false});
+        objectStore.createIndex("city", "city", {unique:false});
+        objectStore.createIndex("code", "code", {unique:false});
+        objectStore.createIndex("phone_number", "phone_number", {unique:false});
         objectStore.createIndex("email", "email", {unique:false});
 
         objectStore.transaction.oncomplete = function(event) { };
@@ -56,6 +58,8 @@
         var clast_name = document.getElementById('last_name').value;
         var cid_number = document.getElementById('id_number').value;
         var caddress = document.getElementById('address').value;
+        var ccity = document.getElementById('city').value;
+        var ccode = document.getElementById('country_code').value;
         var cphone_number = document.getElementById('phone_number').value;
         var cemail = document.getElementById('email').value;
 
@@ -64,6 +68,8 @@
           last_name: clast_name,
           id_number: cid_number,
           address: caddress,
+          city: ccity,
+          code: ccode,
           phone_number: cphone_number,
           email: cemail
         }
@@ -89,68 +95,6 @@
         updateTable();
       }
 
-      document.getElementById('del').onclick = function(e) {
-        var del_id = parseInt(document.getElementById('del_id').value);
-
-        var request = db.transaction(["contacts"], "readwrite")
-          .objectStore("contacts")
-          .delete(del_id);
-
-        request.onsuccess = function(event) {
-          window.alert("Contact " + del_id + " deleted.");
-        }
-
-        updateTable();
-      }
-
-      document.getElementById('searchButton').onclick = function(e){
-        var search = document.getElementById('searchInput').value;
-        if (!search) {
-          search = "";
-        }
-        search = search.toLowerCase();
-
-        document.getElementById("contacts-table-body").innerHTML = "";
-        var request = db.transaction("contacts").objectStore("contacts").openCursor();
-        request.onerror = function(event){
-          console.dir(event);
-        };
-
-        request.onsuccess = function(event){
-          cursor = event.target.result;
-
-          if(cursor) {
-            if ((cursor.key.toString().localeCompare(search) == 0 ||
-              cursor.value.name.toLowerCase().includes(search) ||
-              cursor.value.last_name.toLowerCase().includes(search) ||
-              cursor.value.id_number.toLowerCase().includes(search) ||
-              cursor.value.address.toLowerCase().includes(search) ||
-              cursor.value.phone_number.toLowerCase().includes(search) ||
-              cursor.value.email.toLowerCase().includes(search)
-              )) {
-
-              document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
-                + "</td><td>" + cursor.value.name
-                + "</td><td>" + cursor.value.last_name
-                + "</td><td>" + cursor.value.id_number
-                + "</td><td>" + cursor.value.address
-                + "</td><td>" + cursor.value.phone_number
-                + "</td><td>" + cursor.value.email
-                + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
-                + "</td></tr>";
-
-              document.getElementById('del').onclick = function(e){
-                var del_id = parseInt(document.getElementById('del').value);
-                var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
-                updateTable();
-              }
-              cursor.continue();
-            }
-          }
-        };
-
-      }
-
       function updateTable() {
         document.getElementById("contacts-table-body").innerHTML = "";
 
@@ -172,6 +116,8 @@
             + "</td><td>" + cursor.value.last_name
             + "</td><td>" + cursor.value.id_number
             + "</td><td>" + cursor.value.address
+            + "</td><td>" + cursor.value.city
+            + "</td><td>" + cursor.value.code
             + "</td><td>" + cursor.value.phone_number
             + "</td><td>" + cursor.value.email
             + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
@@ -185,6 +131,57 @@
           cursor.continue();
         }
       };
+
+      document.getElementById('search_button').onclick = function(e){
+        var search = document.getElementById('search_input').value;
+        if (!search) {
+          search = "";
+        }
+        search = search.toLowerCase();
+
+        document.getElementById("contacts-table-body").innerHTML = "";
+        var request = db.transaction("contacts").objectStore("contacts").openCursor();
+        request.onerror = function(event){
+          console.dir(event);
+        };
+
+        request.onsuccess = function(event){
+          cursor = event.target.result;
+
+          if(cursor) {
+            if ((cursor.key.toString().localeCompare(search) == 0 ||
+                cursor.value.name.toLowerCase().includes(search) ||
+                cursor.value.last_name.toLowerCase().includes(search) ||
+                cursor.value.id_number.toLowerCase().includes(search) ||
+                cursor.value.address.toLowerCase().includes(search) ||
+                cursor.value.city.toLowerCase().includes(search) ||
+                cursor.value.code.toLowerCase().includes(search) ||
+                cursor.value.phone_number.toLowerCase().includes(search) ||
+                cursor.value.email.toLowerCase().includes(search)
+              )) {
+
+              document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
+                + "</td><td>" + cursor.value.name
+                + "</td><td>" + cursor.value.last_name
+                + "</td><td>" + cursor.value.id_number
+                + "</td><td>" + cursor.value.address
+                + "</td><td>" + cursor.value.city
+                + "</td><td>" + cursor.value.code
+                + "</td><td>" + cursor.value.phone_number
+                + "</td><td>" + cursor.value.email
+                + "</td><td><button id=\"del\" value=\"" + cursor.key + "\">Delete</button>"
+                + "</td></tr>";
+
+              document.getElementById('del').onclick = function(e){
+                var del_id = parseInt(document.getElementById('del').value);
+                var request = db.transaction(["contacts"], "readwrite").objectStore("contacts").delete(del_id);
+                updateTable();
+              }
+              cursor.continue();
+            }
+          }
+        };
+      }
     }
   }
 
@@ -209,6 +206,12 @@
       <label for="address"> Address: </label>
       <input type="text" id="address" name="address" placeholder="Stefanowskiego 4/20" required/> </br> </br>
 
+      <label for="city"> City: </label>
+      <input type="text" id="city" name="city" placeholder="Łódź" required/> </br> </br>
+
+      <label for="country_code"> Postal code: </label>
+      <input type="text" id="country_code" name="country_code" pattern="^\d{2}-\d{3}$" placeholder="11-222" required/> </br> </br>
+
       <label for="phone_number"> Phone number: </label>
       <input type="text" id="phone_number" name="phone_number" pattern="[0-9]{9}$" title="format xxxxxxxxx"placeholder="123123123" required/> </br> </br>
 
@@ -220,18 +223,9 @@
   </div>
 
   <div>
-    <h4>Delete contact</h4>
-    <label for="del_id"> Id: </label>
-    <input type="text" id="del_id" name="del_id" placeholder="1" required/> </br> </br>
-
-    <button id="del">Delete</button>
-  </div>
-
-  <div>
     <h4>Search</h4>
-    <label>Keyword</label>
-    <input id="searchInput">
-    <button id="searchButton">Search</button>
+    <input id="search_input" placeholder="Serch phrase"/>
+    <button id="search_button">Search</button>
   </div>
 </div>
 
@@ -244,6 +238,8 @@
       <th>Last name</th>
       <th>ID nuber</th>
       <th>Address</th>
+      <th>City</th>
+      <th>Postal code</th>
       <th>Phone number</th>
       <th>Email</th>
       <th> </th>
