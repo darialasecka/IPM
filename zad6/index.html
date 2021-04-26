@@ -150,8 +150,7 @@
         if (!search) {
           search = "";
         }
-        search = search.toLowerCase();
-        splitted = search.split(' ');
+        search = search.toLowerCase().split(' ');
 
         document.getElementById("contacts-table-body").innerHTML = "";
         var request = db.transaction("contacts").objectStore("contacts").openCursor();
@@ -159,28 +158,28 @@
           console.dir(event);
         };
 
-        var fields = ['name', 'last_name', 'id_number', 'address', 'city', 'code', 'phone_number', 'email'];
-
-        console.log('test');
         request.onsuccess = function(event){
           cursor = event.target.result;
 
           if(cursor) {
+            console.log(search);
             var containsAll = true;
-            for(var i = 0; i < splitted.length; i++) {
-              console.log('hello');
+            for(i = 0; i < search.length; i++) {
               var contains = false;
-              fields.forEach(function(field) {
-                if (String(cursor.value[field]).toLowerCase().includes(splitted[i])) {
+              if((cursor.key.toString().localeCompare(search[i]) == 0 ||
+                cursor.value.name.toLowerCase().includes(search[i]) ||
+                cursor.value.last_name.toLowerCase().includes(search[i]) ||
+                cursor.value.id_number.toLowerCase().includes(search[i]) ||
+                cursor.value.address.toLowerCase().includes(search[i]) ||
+                cursor.value.city.toLowerCase().includes(search[i]) ||
+                cursor.value.code.toLowerCase().includes(search[i]) ||
+                cursor.value.phone_number.toLowerCase().includes(search[i]) ||
+                cursor.value.email.toLowerCase().includes(search[i]) )) {
                   contains = true;
                 }
-              });
-              conatinsAll &= contains;
-              console.log("c: " + contains);
-              if(!conatinsAll) break;
+                containsAll &= contains;
+                if(!containsAll) break;
             }
-            console.log("cl: " + containsAll);
-
             if(containsAll) {
               document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
                 + "</td><td>" + cursor.value.name
