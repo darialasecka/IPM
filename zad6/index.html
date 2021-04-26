@@ -95,6 +95,25 @@
         updateTable();
       }
 
+      function getRandomText(array) {
+        return array[Math.floor(Math.random() * array.length)];
+      }
+
+      function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * max) + min;
+      }
+
+      document.getElementById('generate_data').onclick = function(e){
+        document.getElementById('name').value = getRandomText(['Bob' , 'Jan', 'Marcel', 'Robert', 'Hubert' , 'Ryszard', 'Eugeniusz', 'Mariusz', 'Nataniel', 'Grzegorz']);
+        document.getElementById('last_name').value = getRandomText(['Kowalski' , 'Nowak', 'Wiśniewski', 'Kowalczyk', 'Kamiński' , 'Lewandowski', 'Wójcik', 'Woźniak', 'Jankowski', 'Mazur']);
+        document.getElementById('id_number').value = getRandomText(['AAA' , 'ABC', 'TES', 'KOW', 'DAT' , 'CBA', 'DOM']) + getRandomNumber(100000, 899999);
+        document.getElementById('address').value = getRandomText(['al. Politechniki' , 'Stefanowskiego', 'Narutowicza', '11 Maja', 'Piotrkowska']) + " " + getRandomNumber(1, 60) + "/" + getRandomNumber(1,60);
+        document.getElementById('city').value = getRandomText(['Łódź', 'Poznań', 'Warszawa', 'Kraków', 'Grańsk', 'Gdynia', 'Sopot']);
+        document.getElementById('country_code').value = getRandomNumber(10, 89) + "-" + getRandomNumber(100, 899);
+        document.getElementById('phone_number').value = getRandomNumber(100000000, 899999999);
+        document.getElementById('email').value = Math.random().toString(36).substring(2, 8) + "@" + getRandomText(['example.com', 'gamil.com', 'test.pl']);
+      }
+
       function updateTable() {
         document.getElementById("contacts-table-body").innerHTML = "";
 
@@ -111,14 +130,14 @@
 
           if(cursor) {
             document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
-              + "</td><td>" + cursor.value.name
-              + "</td><td>" + cursor.value.last_name
-              + "</td><td>" + cursor.value.id_number
-              + "</td><td>" + cursor.value.address
-              + "</td><td>" + cursor.value.city
-              + "</td><td>" + cursor.value.code
-              + "</td><td>" + cursor.value.phone_number
-              + "</td><td>" + cursor.value.email
+              + "</td><td contenteditable>" + cursor.value.name
+              + "</td><td contenteditable>" + cursor.value.last_name
+              + "</td><td contenteditable>" + cursor.value.id_number
+              + "</td><td contenteditable>" + cursor.value.address
+              + "</td><td contenteditable>" + cursor.value.city
+              + "</td><td contenteditable>" + cursor.value.code
+              + "</td><td contenteditable>" + cursor.value.phone_number
+              + "</td><td contenteditable>" + cursor.value.email
               + "</td><td><button onclick=\"delContact(" + cursor.key + ")\">Delete</button>"
               + "</td></tr>";
 
@@ -180,6 +199,18 @@ function delContact(id) {
       console.log("Deleted contact");
       window.location.reload(false);
   };
+
+  /*
+  function editContact(id) {
+  var objectStore = db.transaction(["contacts"], "readwrite").objectStore("contacts");
+  var request = objectStore.delete(id);
+  request.onsuccess = function(event) {
+      console.log("Deleted contact");
+      window.location.reload(false);
+  };
+  */
+
+
 }
 </script>
 </head>
@@ -217,6 +248,8 @@ function delContact(id) {
       <button type="submit" id="add">Add</button>
     </form>
   </div>
+
+  <button class="gen-button" id="generate_data" >Generate contact</button>
 
   <div>
     <h4>Search</h4>

@@ -37,6 +37,15 @@ button:hover{
   -webkit-box-shadow:none;
 }
 
+.gen-button{
+  background: #008080;
+  margin-left: 18px;
+  margin-top: 5px;
+	padding: 8px 15px 8px 15px;
+	border: none;
+	color: #fff;
+	width: 160px;
+}
 
 input:invalid {
   border-color: red;
