@@ -151,6 +151,7 @@
           search = "";
         }
         search = search.toLowerCase();
+        splitted = search.split(' ');
 
         document.getElementById("contacts-table-body").innerHTML = "";
         var request = db.transaction("contacts").objectStore("contacts").openCursor();
@@ -158,20 +159,29 @@
           console.dir(event);
         };
 
+        var fields = ['name', 'last_name', 'id_number', 'address', 'city', 'code', 'phone_number', 'email'];
+
+        console.log('test');
         request.onsuccess = function(event){
           cursor = event.target.result;
 
           if(cursor) {
-            if ((cursor.key.toString().localeCompare(search) == 0 ||
-                cursor.value.name.toLowerCase().includes(search) ||
-                cursor.value.last_name.toLowerCase().includes(search) ||
-                cursor.value.id_number.toLowerCase().includes(search) ||
-                cursor.value.address.toLowerCase().includes(search) ||
-                cursor.value.city.toLowerCase().includes(search) ||
-                cursor.value.code.toLowerCase().includes(search) ||
-                cursor.value.phone_number.toLowerCase().includes(search) ||
-                cursor.value.email.toLowerCase().includes(search) )) {
+            var containsAll = true;
+            for(var i = 0; i < splitted.length; i++) {
+              console.log('hello');
+              var contains = false;
+              fields.forEach(function(field) {
+                if (String(cursor.value[field]).toLowerCase().includes(splitted[i])) {
+                  contains = true;
+                }
+              });
+              conatinsAll &= contains;
+              console.log("c: " + contains);
+              if(!conatinsAll) break;
+            }
+            console.log("cl: " + containsAll);
 
+            if(containsAll) {
               document.getElementById("contacts-table-body").innerHTML += "<tr><td>" + cursor.key
                 + "</td><td>" + cursor.value.name
                 + "</td><td>" + cursor.value.last_name
@@ -184,7 +194,6 @@
                 + "</td><td><button onClick=\"delContact(" + cursor.key + ")>Delete</button>"
                 + "</td></tr>";
             }
-
             cursor.continue();
           }
         };
