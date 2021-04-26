@@ -47,6 +47,11 @@ button:hover{
 	width: 160px;
 }
 
+small{
+  color: gray;
+  margin-left: 5px;
+}
+
 input:invalid {
   border-color: red;
 }

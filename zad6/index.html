@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="styles.css">
   <script>
     // In the following line, you should include the prefixes of implementations you want to test.
@@ -54,6 +55,7 @@
       };
 
       document.getElementById('addContact').onsubmit = function(e) {
+        var cid = document.getElementById('id').value;
         var cname = document.getElementById('name').value;
         var clast_name = document.getElementById('last_name').value;
         var cid_number = document.getElementById('id_number').value;
@@ -74,6 +76,8 @@
           email: cemail
         }
 
+        if(cid != "") contact.id = parseInt(cid);
+
         var transaction = db.transaction(["contacts"], "readwrite");
 
         transaction.oncomplete = function(event) {
@@ -86,7 +90,7 @@
 
         var contactsObjectStore = transaction.objectStore("contacts");
 
-        var request = contactsObjectStore.add(contact);
+        var request = contactsObjectStore.put(contact);
 
         request.onsuccess = function(event) {
           console.log("Contact added successfully.");
@@ -229,6 +233,10 @@ function delContact(id) {
   <div>
     <h4>Add contact</h4>
     <form id="addContact">
+      <label for="id"> Id (optional): </label>
+      <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>
+
+
       <label for="name"> Name: </label>
       <input type="text" id="name" name="name" placeholder="Bob" required/> </br> </br>
 
@@ -266,7 +274,7 @@ function delContact(id) {
   </div>
 </div>
 
-<div class="right-div">
+<div>
   <table id="contacts-table" class="styled-table">
     <thead>
     <tr>
