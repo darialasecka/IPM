@@ -1,0 +1,93 @@
+div {
+  padding-bottom: 20px;
+  padding-left: 20px;
+  margin-top: 40px;
+}
+
+.left-div{
+  margin-top: -40px;
+  float: left;
+  margin-right: 50px;
+}
+
+button{
+background: #008080;
+	padding: 8px 15px 8px 15px;
+	border: none;
+	color: #fff;
+	width: 80px;
+}
+
+input{
+  width: 150px;
+  height: 20px;
+}
+
+label{
+  padding-bottom: 10px;
+  display: block;
+  float: left;
+  width: 100px;
+}
+
+button:hover{
+  background: #006060;
+  box-shadow:none;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+}
+
+.gen-button{
+  background: #008080;
+  margin-left: 18px;
+  margin-top: 5px;
+	padding: 8px 15px 8px 15px;
+	border: none;
+	color: #fff;
+	width: 160px;
+}
+
+small{
+  color: gray;
+  margin-left: 5px;
+}
+
+input:invalid {
+  border-color: red;
+}
+
+input:valid {
+  border-color: lime;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #008080;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
