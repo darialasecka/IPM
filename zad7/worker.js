@@ -1,12 +1,12 @@
 onmessage = function (e) {
-  console.log('Worker started');
+  console.log('Worker started working');
   var contact = e.data;
 
   for(var key in contact){
     contact[key] = reverseText(contact[key]);
   }
 
-  console.log('Worker finished');
+  console.log('Worker finished working');
   postMessage(contact);
 };
 
