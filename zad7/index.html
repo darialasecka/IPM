@@ -149,6 +149,36 @@
         }
       };
 
+      function getDbObjects(filter = (object) => true) {
+        let ret = new Promise((res, rej) => {
+          let objects = [];
+          if (db) {
+            var store = db.transaction("contacts", 'readonly').objectStore("contacts");
+            store.openCursor().onsuccess = (e) => {
+              var c = e.target.result;
+              if (c) {
+                if (filter(c.value)) {
+                  objects.push(c.value);
+                }
+                  c.continue();
+              } else {
+                res(objects);
+              }
+            };
+          }
+        });
+        return ret;
+      }
+
+      worker = new Worker('worker.js');
+
+      document.getElementById('worker_button').onclick = function(e){
+        console.log("lol");
+        getDbObjects().then((value) => {
+          worker.postMessage(JSON.stringify(value))
+        });
+      };
+
       document.getElementById('search_button').onclick = function(e){
         var search = document.getElementById('search_input').value;
         if (!search) {
@@ -200,37 +230,6 @@
             cursor.continue();
           }
         };
-
-        function getDbObjects(filter = (object) => true) {
-          let ret = new Promise((res, rej) => {
-            let objects = [];
-            if (db) {
-              var store = db.transaction("contacts", 'readonly').objectStore("contacts");
-              store.openCursor().onsuccess = (e) => {
-                var c = e.target.result;
-                if (c) {
-                  if (filter(c.value)) {
-                    objects.push(c.value);
-                  }
-                    c.continue();
-                } else {
-                  res(objects);
-                }
-              };
-            }
-          });
-          return ret;
-        }
-
-        worker = new Worker('worker.js');
-
-        document.getElementById('worker_button').onclick = function(e){
-          console.log("lol");
-          getDbObjects().then((value) => {
-            worker.postMessage(JSON.stringify(value))
-          });
-        };
-
       }
     }
   }
@@ -251,7 +250,7 @@ function delContact(id) {
 
 <div class="left-div">
   <div>
-    <h4>Add contact</h4>
+    <h4>Add contact v1</h4> <!--  addint vNubner for testing  -->
     <form id="addContact">
       <label for="id"> Id (optional): </label>
       <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>
