@@ -233,7 +233,7 @@ function setFormToContact(data){
 
 window.addEventListener('DOMContentLoaded', (event) => {
   var worker = new Worker('worker.js');
-  inverterWorker.onmessage = function(e) {
+  worker.onmessage = function(e) {
     setFormToContact(e.data);
   }
 
@@ -241,7 +241,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   worker_button.addEventListener('click', function(e) {
     console.log('Message posted to worker');
-    inverterWorker.postMessage(getContactFromForm());
+    worker.postMessage(getContactFromForm());
   });
 });
 
@@ -253,7 +253,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <div class="left-div">
   <div>
-    <h4>Add contact v6</h4> <!--  addint vNubner for testing  -->
+    <h4>Add contact v7</h4> <!--  adding vNubner for testing  -->
     <form id="addContact">
       <label for="id"> Id (optional): </label>
       <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>
