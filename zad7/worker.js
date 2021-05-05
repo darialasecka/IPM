@@ -2,8 +2,8 @@ onmessage = function (e) {
   console.log('Worker started');
   var contact = e.data;
 
-  for(var key in cuontact){
-    contact[key] = reverseText(contacy[key]);
+  for(var key in contact){
+    contact[key] = reverseText(contact[key]);
   }
 
   console.log('Worker finished');
@@ -19,5 +19,5 @@ function reverseText(text) {
       output += character.toLowerCase();
     }
   }
-  return output
+  return output;
 }
