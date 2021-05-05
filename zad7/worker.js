@@ -7,7 +7,7 @@ onmessage = function (e) {
   }
 
   console.log('Worker finished');
-  postMessage(contact)
+  postMessage(contact);
 };
 
 function reverseText(text) {
