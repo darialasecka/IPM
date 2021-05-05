@@ -149,6 +149,37 @@
         }
       };
 
+      function getDbObjects(filter = (object) => true) {
+        let ret = new Promise((res, rej) => {
+          let objects = [];
+          if (database) {
+            var store = database.transaction("contacts", 'readonly').objectStore("contacts");
+            store.openCursor().onsuccess = (e) => {
+              var c = e.target.result;
+              if (c) {
+                if (filter(c.value)) {
+                  objects.push(c.value);
+                }
+                  c.continue();
+              } else {
+                res(objects);
+              }
+            };
+          }
+        });
+        return ret;
+      }
+
+      worker = new Worker('worker.js');
+
+      document.getElementById('worker_button').onclick = function(e){
+          console.log("lol");
+          getDbObjects().then((value) => {
+            worker.postMessage(JSON.stringify(value))
+          });
+        };
+
+
       document.getElementById('search_button').onclick = function(e){
         var search = document.getElementById('search_input').value;
         if (!search) {
@@ -212,17 +243,6 @@ function delContact(id) {
       window.location.reload(false);
   };
 
-  /*
-  function editContact(id) {
-  var objectStore = db.transaction(["contacts"], "readwrite").objectStore("contacts");
-  var request = objectStore.delete(id);
-  request.onsuccess = function(event) {
-      console.log("Deleted contact");
-      window.location.reload(false);
-  };
-  */
-
-
 }
 </script>
 </head>
@@ -266,6 +286,7 @@ function delContact(id) {
   </div>
 
   <button class="gen-button" id="generate_data" >Generate contact</button>
+  <button class="gen-button" id="worker_button">Run WebWorker</button>
 
   <div>
     <h4>Search</h4>
