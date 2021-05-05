@@ -240,7 +240,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   var worker_button = document.getElementById('worker_button');
 
   worker_button.addEventListener('click', function(e) {
-    console.log('Message posted to worker');
+    console.log('Message sent to worker');
     worker.postMessage(getContactFromForm());
   });
 });
@@ -253,7 +253,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <div class="left-div">
   <div>
-    <h4>Add contact v7</h4> <!--  adding vNubner for testing  -->
+    <h4>Add contact v8</h4> <!--  adding vNubner for testing  -->
     <form id="addContact">
       <label for="id"> Id (optional): </label>
       <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>

@@ -4,7 +4,7 @@ onmessage = function (e) {
 
   for(var key in cuontact){
     contact[key] = reverseText(contacy[key]);
-  }
+  };
 
   console.log('Worker finished');
   postMessage(contact)
