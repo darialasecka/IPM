@@ -11,6 +11,7 @@ onmessage = function (e) {
 };
 
 function reverseText(text) {
+  var output = '';
   for (var i = 0; i < text.length; i++) {
     var character = text[i];
     if (character == character.toLowerCase()) { // The character is lowercase
