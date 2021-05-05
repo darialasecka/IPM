@@ -149,42 +149,44 @@
         }
       };
 
-      function getDbObjects(filter = (object) => true) {
-        let ret = new Promise((res, rej) => {
-          var cname = document.getElementById('name').value;
-          var clast_name = document.getElementById('last_name').value;
-          var cid_number = document.getElementById('id_number').value;
-          var caddress = document.getElementById('address').value;
-          var ccity = document.getElementById('city').value;
-          var ccode = document.getElementById('country_code').value;
-          var cphone_number = document.getElementById('phone_number').value;
-          var cemail = document.getElementById('email').value;
-
-          const contact = {
-            name: cname,
-            last_name: clast_name,
-            id_number: cid_number,
-            address: caddress,
-            city: ccity,
-            code: ccode,
-            phone_number: cphone_number,
-            email: cemail
-          }
-
-          res(contact)
-
-        });
-        return ret;
+      function getContactFromForm() {
+        return {
+          name: document.getElementById('name').value,
+          last_name: document.getElementById('last_name').value,
+          id_number: document.getElementById('id_number').value,
+          address: document.getElementById('address').value,
+          city: document.getElementById('city').value,
+          code: document.getElementById('country_code').value,
+          phone_number: document.getElementById('phone_number').value,
+          email: document.getElementById('email').value
+        };
       }
 
-      worker = new Worker('worker.js');
+      function setFormToContact(data){
+        document.getElementById('name').value = data.name;
+        document.getElementById('last_name').value = data.last_name;
+        document.getElementById('id_number').value = data.id_number;
+        document.getElementById('address').value = data.address;
+        document.getElementById('city').value = data.city;
+        document.getElementById('country_code').value = data.code;
+        document.getElementById('phone_number').value = data.phone_number;
+        document.getElementById('email').value = data.email;
+      }
 
-      document.getElementById('worker_button').onclick = function(e){
-        console.log("lol");
-        getDbObjects().then((value) => {
-          worker.postMessage(JSON.stringify(value))
+      window.addEventListener('DOMContentLoaded', (event) => {
+        var worker = new Worker('worker.js');
+        inverterWorker.onmessage = function(e) {
+          setFormToContact(e.data);
+        }
+
+        var worker_button = document.getElementById('worker_button');
+
+        worker_button.addEventListener('click', function(e) {
+          console.log('Message posted to worker');
+          inverterWorker.postMessage(getContactFromForm());
         });
-      };
+      });
+
 
       document.getElementById('search_button').onclick = function(e){
         var search = document.getElementById('search_input').value;
@@ -257,7 +259,7 @@ function delContact(id) {
 
 <div class="left-div">
   <div>
-    <h4>Add contact v3</h4> <!--  addint vNubner for testing  -->
+    <h4>Add contact v4</h4> <!--  addint vNubner for testing  -->
     <form id="addContact">
       <label for="id"> Id (optional): </label>
       <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>

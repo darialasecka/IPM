@@ -1,13 +1,13 @@
 onmessage = function (e) {
+  console.log('Worker started');
   var contact = e.data;
-  console.log("in: ", contact);
 
   for(var key in cuontact){
     contact[key] = reverseText(contacy[key]);
   }
 
-  var output = '';
-  console.log("out: ", output);
+  console.log('Worker finished');
+  postMessage(contact)
 };
 
 function reverseText(text){
