@@ -211,46 +211,41 @@ function delContact(id) {
       console.log("Deleted contact");
       window.location.reload(false);
   };
-
-  function getContactFromForm() {
-    return {
-      name: document.getElementById('name').value,
-      last_name: document.getElementById('last_name').value,
-      id_number: document.getElementById('id_number').value,
-      address: document.getElementById('address').value,
-      city: document.getElementById('city').value,
-      code: document.getElementById('country_code').value,
-      phone_number: document.getElementById('phone_number').value,
-      email: document.getElementById('email').value
-    };
-  }
-
-  function setFormToContact(data){
-    document.getElementById('name').value = data.name;
-    document.getElementById('last_name').value = data.last_name;
-    document.getElementById('id_number').value = data.id_number;
-    document.getElementById('address').value = data.address;
-    document.getElementById('city').value = data.city;
-    document.getElementById('country_code').value = data.code;
-    document.getElementById('phone_number').value = data.phone_number;
-    document.getElementById('email').value = data.email;
-  }
-
-  window.addEventListener('DOMContentLoaded', (event) => {
-    var worker = new Worker('worker.js');
-    inverterWorker.onmessage = function(e) {
-      setFormToContact(e.data);
-    }
-
-    var worker_button = document.getElementById('worker_button');
-
-    worker_button.addEventListener('click', function(e) {
-      console.log('Message posted to worker');
-      inverterWorker.postMessage(getContactFromForm());
-    });
-  });
-
 }
+
+function getContactFromForm() {
+  return {
+    name: document.getElementById('name').value,
+    last_name: document.getElementById('last_name').value,
+    address: document.getElementById('address').value,
+    city: document.getElementById('city').value,
+    email: document.getElementById('email').value
+  };
+}
+
+function setFormToContact(data){
+  document.getElementById('name').value = data.name;
+  document.getElementById('last_name').value = data.last_name;
+  document.getElementById('address').value = data.address;
+  document.getElementById('city').value = data.city;
+  document.getElementById('email').value = data.email;
+}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  var worker = new Worker('worker.js');
+  inverterWorker.onmessage = function(e) {
+    setFormToContact(e.data);
+  }
+
+  var worker_button = document.getElementById('worker_button');
+
+  worker_button.addEventListener('click', function(e) {
+    console.log('Message posted to worker');
+    inverterWorker.postMessage(getContactFromForm());
+  });
+});
+
+
 </script>
 </head>
 
@@ -258,7 +253,7 @@ function delContact(id) {
 
 <div class="left-div">
   <div>
-    <h4>Add contact v5</h4> <!--  addint vNubner for testing  -->
+    <h4>Add contact v6</h4> <!--  addint vNubner for testing  -->
     <form id="addContact">
       <label for="id"> Id (optional): </label>
       <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>
