@@ -246,24 +246,24 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   // Image processing worker
   var imageFilterWorker = new Worker('image_worker.js');
-    imageFilterWorker.onmessage = function(e) {
-        console.log("set color to ", e.data);
-        document.getElementById('image-div').style.setProperty('--image-filter-color', `rgb(${e.data.r}, ${e.data.g}, ${e.data.b})`);
-    }
-    var urlElement = document.getElementById('image-url');
-    urlElement.addEventListener('input', function(e) {
-        console.log("Should change");
-        document.getElementById('image-div').style.backgroundImage = `url(${urlElement.value})`;
-    });
+  imageFilterWorker.onmessage = function(e) {
+      console.log("set color to ", e.data);
+      document.getElementById('image-div').style.setProperty('--image-filter-color', `rgb(${e.data.r}, ${e.data.g}, ${e.data.b})`);
+  }
+  var urlElement = document.getElementById('image-url');
+  urlElement.addEventListener('input', function(e) {
+      console.log("Should change");
+      document.getElementById('image-div').style.backgroundImage = `url(${urlElement.value})`;
+  });
 
-    var form = document.getElementById("addContact");
-    // react to form changes
-    form.addEventListener("input", function() {
-        var data = getCustomerJSONFromForm();
-        data.url = document.getElementById("image-url").value;
-        imageFilterWorker.postMessage(data);
-        console.log("Form has changed!");
-    });
+  var form = document.getElementById("addContact");
+  // react to form changes
+  form.addEventListener('input', function() {
+      var data = getContactFromForm();
+      data.url = document.getElementById("image-url").value;
+      imageFilterWorker.postMessage(data);
+      console.log("Form has changed!");
+  });
 });
 
 
@@ -274,7 +274,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <div class="left-div">
   <div>
-    <h4>Add contact</h4>
+    <h4>Add contact v1</h4>
     <form id="addContact">
       <label for="id"> Id (optional): </label>
       <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>
@@ -321,7 +321,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     <h4>Image</h4>
     <input type="url" value="https://placekitten.com/200/300" id="image-url" name="image-url" class="customer-edit-input"><br>
       <div id="image-div">
-        <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
+        <img src="https://placekitten.com/500/300" id="left-image">
       </div>
   </div>
 </div>

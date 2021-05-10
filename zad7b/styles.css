@@ -93,7 +93,7 @@ small{
 }
 
 
-.left-image {
+img {
     display: block;
     position: relative;
     margin-left: auto;
@@ -103,7 +103,7 @@ small{
     object-fit: contain;
 }
 
-#left-image-container {
+#imgage-div {
     width: 100%;
     height: 12rem;
     position: relative;
@@ -113,7 +113,7 @@ small{
     --image-filter-color: #ff0000;
 }
 
-#left-image-container::after {
+#imgage-div::after {
     background-color: var(--image-filter-color);
     content: "";
     position: absolute;
