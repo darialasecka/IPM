@@ -9,7 +9,6 @@ onmessage = function(e) {
         form_sum += addLetters(contact[key]);
     }
 
-    console.log(gigaString);
     postMessage({
         'r': form_sum % 255,
         'g': 255 - (form_sum % 255),

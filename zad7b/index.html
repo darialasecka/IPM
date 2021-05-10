@@ -260,12 +260,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
   // Image processing worker
   var imageFilterWorker = new Worker('image_worker.js');
   imageFilterWorker.onmessage = function(e) {
-      console.log("set color to ", e.data);
+      console.log("color: ", e.data);
       document.getElementById('image-div').style.setProperty('--filter', `rgb(${e.data.r}, ${e.data.g}, ${e.data.b})`);
   }
   var urlElement = document.getElementById('image-url');
   urlElement.addEventListener('input', function(e) {
-      console.log("Should change");
       document.getElementById('image-div').style.backgroundImage = `url(${urlElement.value})`;
   });
 
@@ -273,9 +272,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
   // react to form changes
   form.addEventListener('input', function() {
       var data = getFormForImage();
-      data.url = document.getElementById("image-url").value;
+      data.url = document.getElementById('image-url').value;
       imageFilterWorker.postMessage(data);
-      console.log("Form has changed!");
+      // console.log("Form changed");
   });
 });
 
@@ -287,7 +286,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <div class="left-div">
   <div>
-    <h4>Add contact v3</h4>
+    <h4>Add contact v4</h4>
     <form id="addContact">
       <label for="id"> Id (optional): </label>
       <input type="number" id="id" name="id" placeholder="0"/> <small>Fill to edit</small></br> </br>
