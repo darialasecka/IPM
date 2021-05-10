@@ -244,11 +244,18 @@ function setFormToContact(data){
   document.getElementById('email').value = data.email;
 }
 
+function sendDataToImgWorker(worker) {
+  var data = getFormForImage();
+  data.url = document.getElementById('image-url').value;
+  worker.postMessage(data);
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
   // Invert letters worker
   var worker = new Worker('webworker.js');
   worker.onmessage = function(e) {
     setFormToContact(e.data);
+    sendDataToImgWorker(imageFilterWorker);
   }
 
   var worker_button = document.getElementById('worker_button');
@@ -271,11 +278,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   var form = document.getElementById("addContact");
   form.addEventListener('input', function() {
-      var data = getFormForImage();
-      data.url = document.getElementById('image-url').value;
-      imageFilterWorker.postMessage(data);
+      sendDataToImgWorker(imageFilterWorker);
       // console.log("Form changed");
   });
+
+  var generate = document.getElementById('generate_data');
+  generate.addEventListener('click', function(e) {
+    sendDataToImgWorker(imageFilterWorker);
+  });
+  
 });
 
 
