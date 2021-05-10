@@ -1,50 +1,43 @@
 onmessage = function(e) {
-    console.log('Message received from main script');
-    var gigaSum = 0;
-    var customer = e.data;
-    var gigaString = '';
-    for (var key in customer) {
-        gigaString += getStringWithOnlyASCIILetters(customer[key]);
-        gigaSum += sumLetters(customer[key]);
+    console.log('Worker started working');
+    var contact = e.data;
+    var form_sum = 0;
+    var form_string = '';
+
+    for (var key in contact) {
+        form_string += getStringWithoutSpecialCharacters(contact[key]);
+        form_sum += addLetters(contact[key]);
     }
 
     console.log(gigaString);
     postMessage({
-        'r': gigaSum % 255,
-        'g': 255 - (gigaSum % 255),
-        'b': ((0.5 * (gigaSum % 255)) > 125) ? 99 : 199,
+        'r': form_sum % 255,
+        'g': 255 - (form_sum % 255),
+        'b': ((0.5 * (form_sum % 255)) > 125) ? 99 : 199
     });
+
+    console.log('Worker finished working');
 }
 
-
-function sumLetters(str) {
-    var sum = 0;
-    var i = str.length;
-    while (i--) {
-        var code = str.charCodeAt(i);
-        if (code >= 65 && code <= 90) // uppercase
-        {
-            sum += code - 64 + 30; // A=1+30
-        } else if (code >= 97 && code <= 122) // lowercase
-        {
-            sum += code - 96;
-        }
-    }
-    return sum;
-
-}
-
-function getStringWithOnlyASCIILetters(str) {
-    ret = '';
+function getStringWithoutSpecialCharacters(str) {
+    new_str = '';
     for (i = 0; i < str.length; i++) {
-        var code = str.charCodeAt(i);
-        if (code >= 65 && code <= 90) // uppercase
-        {
-            ret += str[i];
-        } else if (code >= 97 && code <= 122) // lowercase
-        {
-            ret += str[i];
-        }
+        var c = str.charCodeAt(i);
+        if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) // only ASCII letters
+            new_str += str[i];
     }
-    return ret;
+    return new_str;
+}
+
+function addLetters(str) {
+  var sum = 0;
+  var i = 0;
+  while (i++ < str.length) {
+    var c = str.charCodeAt(i);
+    if (c >= 97 && c <= 122) // lowercase
+      sum += c - 96;
+    else if (c >= 65 && c <= 90) // uppercase
+      sum += c - 64 + 30;
+  }
+  return sum;
 }

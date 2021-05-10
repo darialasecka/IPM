@@ -261,7 +261,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   var imageFilterWorker = new Worker('image_worker.js');
   imageFilterWorker.onmessage = function(e) {
       console.log("set color to ", e.data);
-      document.getElementById('image-div').style.setProperty('--image-filter-color', `rgb(${e.data.r}, ${e.data.g}, ${e.data.b})`);
+      document.getElementById('image-div').style.setProperty('--filter', `rgb(${e.data.r}, ${e.data.g}, ${e.data.b})`);
   }
   var urlElement = document.getElementById('image-url');
   urlElement.addEventListener('input', function(e) {
@@ -329,14 +329,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
     <input id="search_input" placeholder="Serch phrase"/>
     <button id="search_button">Search</button>
   </div>
-</div>
 
-<div class="left-div">
-  <h4>Image</h4>
-  <input type="url" value="https://placekitten.com/200/300" id="image-url" name="image-url">
-  <div id="image-div">
-<!--    <img src="https://placekitten.com/500/300" id="left-image">-->
+  <div>
+    <h4>Image</h4>
+    <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" />
+    <div id="image-div">
+      <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
+    </div>
   </div>
+
 </div>
 
 <div>
