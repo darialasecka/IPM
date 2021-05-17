@@ -65,7 +65,7 @@ function init() {
     var ccode = document.getElementById('country_code').value;
     var cphone_number = document.getElementById('phone_number').value;
     var cemail = document.getElementById('email').value;
-    var canvas = document.getElementById('image-canvas');
+    var canvas = document.querySelector('canvas');
 
     const contact = {
       name: cname,
@@ -222,9 +222,11 @@ function delContact(id) {
 }
 
 function show(id) {
+  console.log(id);
   if (id != "") {
     var objectStore = db.transaction(["contacts"], "readwrite").objectStore("contacts");
     var request = objectStore.get(id);
+    
     request.onsuccess = function(event) {
         var data = event.target.result;
         setFormToContact(data);
@@ -238,9 +240,22 @@ function show(id) {
           sendDataToImgWorker();
         } else {
           document.getElementById("image-url").value = '';
-          clearCanvas();
+          clearImg();
         }
     };
+  } 
+  else {
+    document.getElementById('id').value = '';
+    document.getElementById('name').value = '';
+    document.getElementById('last_name').value = '';
+    document.getElementById('id_number').value = '';
+    document.getElementById('address').value = '';
+    document.getElementById('city').value = '';
+    document.getElementById('country_code').value = '';
+    document.getElementById('phone_number').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById("image-url").value = '';
+    clearImg();
   }
 }
 
@@ -250,7 +265,8 @@ function getContactFromForm() {
     last_name: document.getElementById('last_name').value,
     address: document.getElementById('address').value,
     city: document.getElementById('city').value,
-    email: document.getElementById('email').value
+    email: document.getElementById('email').value,
+    image: document.getElementById("image-url").value 
   };
 }
 
@@ -281,6 +297,8 @@ function sendDataToImgWorker() {
   imageFilterWorker.postMessage(data);
 }
 
+var filter = 'rgba(255,0,0,0.5)'
+
 window.addEventListener('DOMContentLoaded', (event) => {
   // Invert letters worker
   worker.onmessage = function(e) {
@@ -298,11 +316,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
   // Image filter worker
   imageFilterWorker.onmessage = function(e) {
       console.log("color: ", e.data);
-      document.getElementById('image-div').style.setProperty('--filter', `rgb(${e.data.r}, ${e.data.g}, ${e.data.b})`);
+
+      filter = `rgb(${e.data.r}, ${e.data.g}, ${e.data.b}, 0.5)`;
+      showImg(urlElement.value, filter);
   }
+
   var urlElement = document.getElementById('image-url');
   urlElement.addEventListener('input', function(e) {
-      document.getElementById('image-div').style.backgroundImage = `url(${urlElement.value})`;
+      showImg(urlElement.value, filter);
   });
 
   var form = document.getElementById("addContact");
@@ -315,6 +336,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
   generate.addEventListener('click', function(e) {
     sendDataToImgWorker();
   });
-  
 });
+
+function showImg(url, filter) {
+  clearImg();
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const width = canvas.width;
+  const height = canvas.height;
+
+  image = new Image();
+  image.src = url;;
+  image.crossOrigin = "Anonymous";
+  image.onload = function() {
+      ctx.drawImage(image, 0, 0, width, height);
+      ctx.fillStyle = filter;
+      ctx.fillRect(0, 0, width, height);
+  }
+}
+
+function clearImg() {
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
