@@ -50,10 +50,12 @@
         objectStore.createIndex("code", "code", {unique:false});
         objectStore.createIndex("phone_number", "phone_number", {unique:false});
         objectStore.createIndex("email", "email", {unique:false});
+        objectStore.createIndex("image", "image", {unique:false});
 
         objectStore.transaction.oncomplete = function(event) { };
       };
 
+      // add / edit
       document.getElementById('addContact').onsubmit = function(e) {
         var cid = document.getElementById('id').value;
         var cname = document.getElementById('name').value;
@@ -64,6 +66,7 @@
         var ccode = document.getElementById('country_code').value;
         var cphone_number = document.getElementById('phone_number').value;
         var cemail = document.getElementById('email').value;
+        var img = document.getElementById('image-canvas');
 
         const contact = {
           name: cname,
@@ -73,7 +76,8 @@
           city: ccity,
           code: ccode,
           phone_number: cphone_number,
-          email: cemail
+          email: cemail,
+          image: canvas.toDataURL("image/jpeg");
         }
 
         if(cid != "") contact.id = parseInt(cid);
@@ -107,6 +111,7 @@
         return Math.floor(Math.random() * max) + min;
       }
 
+      // generate
       document.getElementById('generate_data').onclick = function(e){
         document.getElementById('name').value = getRandomText(['Bob' , 'Jan', 'Marcel', 'Robert', 'Hubert' , 'Ryszard', 'Eugeniusz', 'Mariusz', 'Nataniel', 'Grzegorz']);
         document.getElementById('last_name').value = getRandomText(['Kowalski' , 'Nowak', 'Wiśniewski', 'Kowalczyk', 'Kamiński' , 'Lewandowski', 'Wójcik', 'Woźniak', 'Jankowski', 'Mazur']);
@@ -118,6 +123,7 @@
         document.getElementById('email').value = Math.random().toString(36).substring(2, 8) + "@" + getRandomText(['example.com', 'gamil.com', 'test.pl']);
       }
 
+      // show
       function updateTable() {
         document.getElementById("contacts-table-body").innerHTML = "";
 
@@ -143,12 +149,14 @@
               + "</td><td contenteditable>" + cursor.value.phone_number
               + "</td><td contenteditable>" + cursor.value.email
               + "</td><td><button onclick=\"delContact(" + cursor.key + ")\">Delete</button>"
+              + "</td><td><button onclick=\"show(" + cursor.key + ")\">Show</button>"
               + "</td></tr>";
 
           cursor.continue();
         }
       };
 
+      //find / search
       document.getElementById('search_button').onclick = function(e){
         var search = document.getElementById('search_input').value;
         if (!search) {
@@ -195,6 +203,7 @@
                 + "</td><td>" + cursor.value.phone_number
                 + "</td><td>" + cursor.value.email
                 + "</td><td><button onclick=\"delContact(" + cursor.key + ")\">Delete</button>"
+                + "</td><td><button onclick=\"show(" + cursor.key + ")\">Show</button>"
                 + "</td></tr>";
             }
             cursor.continue();
@@ -211,6 +220,27 @@ function delContact(id) {
       console.log("Deleted contact");
       window.location.reload(false);
   };
+}
+
+function show(id) {
+  if (id != "") {
+    var objectStore = db.transaction(["contacts"], "readwrite").objectStore("contacts");
+    var request = objectStore.get(id);
+    request.onsuccess = function(event) {
+        var data = event.target.result;
+        setFormToContact(data);
+        document.getElementById('id_number').value = data.id_number;
+        document.getElementById('country_code').value = data.code;
+        document.getElementById('phone_number').value = data.phone_number;
+        if (data.image) {
+          document.getElementById("image-url").value = data.image;
+          sendFormToColorWorker();
+        } else {
+          document.getElementById("image-url").value = '';
+          clearCanvas();
+        }
+    };
+  }
 }
 
 function getContactFromForm() {
@@ -343,9 +373,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
   <div>
     <h4>Image</h4>
     <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" />
-    <div id="image-div">
+    <canvas id="image-canvas">
       <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
-    </div>
+    </canvas>
   </div>
 
 </div>
