@@ -3,6 +3,10 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="styles.css">
   <script>
+    // workers
+    var worker = new Worker('webworker.js');
+    var imageFilterWorker = new Worker('imageworker.js');
+
     // In the following line, you should include the prefixes of implementations you want to test.
     window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     // DON'T use "var indexedDB = ..." if you're not in a function.
@@ -235,7 +239,7 @@ function show(id) {
         document.getElementById('phone_number').value = data.phone_number;
         if (data.image) {
           document.getElementById("image-url").value = data.image;
-          sendFormToColorWorker();
+          sendDataToImgWorker();
         } else {
           document.getElementById("image-url").value = '';
           clearCanvas();
@@ -275,18 +279,17 @@ function setFormToContact(data){
   document.getElementById('email').value = data.email;
 }
 
-function sendDataToImgWorker(worker) {
+function sendDataToImgWorker() {
   var data = getFormForImage();
   data.url = document.getElementById('image-url').value;
-  worker.postMessage(data);
+  imageFilterWorker.postMessage(data);
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
   // Invert letters worker
-  var worker = new Worker('webworker.js');
   worker.onmessage = function(e) {
     setFormToContact(e.data);
-    sendDataToImgWorker(imageFilterWorker);
+    sendDataToImgWorker();
   }
 
   var worker_button = document.getElementById('worker_button');
@@ -297,7 +300,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
   });
 
   // Image filter worker
-  var imageFilterWorker = new Worker('imageworker.js');
   imageFilterWorker.onmessage = function(e) {
       console.log("color: ", e.data);
       document.getElementById('image-div').style.setProperty('--filter', `rgb(${e.data.r}, ${e.data.g}, ${e.data.b})`);
@@ -309,13 +311,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   var form = document.getElementById("addContact");
   form.addEventListener('input', function() {
-      sendDataToImgWorker(imageFilterWorker);
+      sendDataToImgWorker();
       // console.log("Form changed");
   });
 
   var generate = document.getElementById('generate_data');
   generate.addEventListener('click', function(e) {
-    sendDataToImgWorker(imageFilterWorker);
+    sendDataToImgWorker();
   });
   
 });
@@ -329,10 +331,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 <div class="left-div">
   <div>
     <h4>Image</h4>
-    <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" />
-    <canvas id="image-canvas">
-      <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
-    </canvas>
+    <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" /></br> </br>
+    <div id="image-div">
+      <canvas id="image-canvas">
+        <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
+      </canvas>
+    </div>
   </div>
 
   <div>
