@@ -77,7 +77,7 @@
           code: ccode,
           phone_number: cphone_number,
           email: cemail,
-          image: canvas.toDataURL("image/jpeg");
+          image: canvas.toDataURL("image/jpeg")
         }
 
         if(cid != "") contact.id = parseInt(cid);
@@ -156,7 +156,7 @@
         }
       };
 
-      //find / search
+      // find / search
       document.getElementById('search_button').onclick = function(e){
         var search = document.getElementById('search_input').value;
         if (!search) {
@@ -393,7 +393,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
       <th>Postal code</th>
       <th>Phone number</th>
       <th>Email</th>
-      <th> </th>
+      <th> </th> <!-- for Delete button -->
+      <th> </th> <!-- for Show button -->
     </tr>
     </thead>
     <tbody id="contacts-table-body">
