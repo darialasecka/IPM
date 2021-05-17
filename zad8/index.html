@@ -2,25 +2,15 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="styles.css">
-    <script src="database.js"></script>
-    <script src="webworker.js"></script>
-    <script src="imageworker.js"></script>
+  <script src="database.js"></script>
+  <script src="webworker.js"></script>
+  <script src="imageworker.js"></script>
 </head>
 
 <body onload="init()">
 
-<div class="left-div">
-  <div>
-    <h4>Image</h4>
-    <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" />
-    <div id="image-div">
-      <canvas id="image-canvas">
-        <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
-      </canvas>
-    </div>
-  </div>
-
-  <div>
+<div>
+  <div class="left-div">
     <h4>Add contact</h4>
     <form id="addContact">
       <label for="id"> Id (optional): </label>
@@ -55,13 +45,27 @@
     </form>
   </div>
 
-  <button class="gen-button" id="generate_data" >Generate contact</button>
-  <button class="gen-button" id="worker_button">Run WebWorker</button>
-
   <div>
-    <h4>Search</h4>
-    <input id="search_input" placeholder="Serch phrase"/>
-    <button id="search_button">Search</button>
+    <button class="gen-button" id="generate_data" >Generate contact</button>
+    <button class="gen-button" id="worker_button">Run WebWorker</button>
+  </div> </br> </br>
+
+  <div class="left-div">
+    <div>
+      <h4>Search</h4>
+      <input id="search_input" placeholder="Serch phrase"/>
+      <button id="search_button">Search</button>
+    </div>
+
+    <div>
+      <h4>Image</h4>
+      <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" />
+      <div id="image-div">
+        <canvas id="image-canvas">
+          <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
+        </canvas>
+      </div>
+    </div>
   </div>
 </div>
 
