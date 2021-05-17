@@ -104,8 +104,8 @@ img {
 }
 
 #image-canvas {
-    width: 100%;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     position: relative;
     background-image: url("https://placedog.net/1000/563?id=43");
     background-position: center;

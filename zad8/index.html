@@ -229,6 +229,7 @@ function show(id) {
     request.onsuccess = function(event) {
         var data = event.target.result;
         setFormToContact(data);
+        document.getElementById('id').value = id;
         document.getElementById('id_number').value = data.id_number;
         document.getElementById('country_code').value = data.code;
         document.getElementById('phone_number').value = data.phone_number;
@@ -327,6 +328,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 <div class="left-div">
   <div>
+    <h4>Image</h4>
+    <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" />
+    <canvas id="image-canvas">
+      <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
+    </canvas>
+  </div>
+
+  <div>
     <h4>Add contact</h4>
     <form id="addContact">
       <label for="id"> Id (optional): </label>
@@ -369,15 +378,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     <input id="search_input" placeholder="Serch phrase"/>
     <button id="search_button">Search</button>
   </div>
-
-  <div>
-    <h4>Image</h4>
-    <input type="url" id="image-url" name="image-url" placeholder="https://placedog.net/1000/563?id=8" />
-    <canvas id="image-canvas">
-      <!--    <img src="https://placekitten.com/500/300" id="left-image">-->
-    </canvas>
-  </div>
-
 </div>
 
 <div>
