@@ -232,6 +232,7 @@ function show(id) {
         document.getElementById('id_number').value = data.id_number;
         document.getElementById('country_code').value = data.code;
         document.getElementById('phone_number').value = data.phone_number;
+        console.log(data.image);
         if (data.image) {
           document.getElementById("image-url").value = data.image;
           sendDataToImgWorker();
