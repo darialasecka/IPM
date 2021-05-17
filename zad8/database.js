@@ -151,9 +151,10 @@ function init() {
           + "</td><td><button onclick=\"show(" + cursor.key + ")\">Show</button>"
           + "</td></tr>";
 
-      cursor.continue();
-    }
-  };
+        cursor.continue();
+      }
+    };
+  }
 
   // find / search
   document.getElementById('search_button').onclick = function(e){
@@ -209,7 +210,6 @@ function init() {
       }
     };
   }
-}
 }
 
 function delContact(id) {
