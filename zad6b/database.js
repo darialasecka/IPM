@@ -100,7 +100,10 @@ function init() {
       console.log("Contact added successfully.");
     };
 
+    e.preventDefault();
     updateTable();
+    clearForm();
+    e.preventDefault();
   }
 
   function getRandomText(array) {
@@ -251,6 +254,11 @@ function show(id) {
     };
   } 
   else {
+    clearForm();
+  }
+}
+
+function clearForm(){
     document.getElementById('id').value = '';
     document.getElementById('name').value = '';
     document.getElementById('last_name').value = '';
@@ -262,7 +270,6 @@ function show(id) {
     document.getElementById('email').value = '';
     document.getElementById("image-url").value = '';
     clearImg();
-  }
 }
 
 function getContactFromForm() {
