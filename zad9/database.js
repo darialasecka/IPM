@@ -157,8 +157,12 @@ function init() {
   }
 
   // find / search
-  document.getElementById('search_button').onclick = function(e){  // TODO: add on input change run filter
+  document.getElementById('search_button').onclick = function(e){
     search();
+  }
+
+  document.getElementById('buy_button').onclick = function(e){
+    buy();
   }
 }
 
@@ -246,6 +250,40 @@ function show(id) {
   }
 }
 
+function buy(){
+  document.getElementById('add').innerHTML = "Add";
+
+  var id = document.getElementById('id').value;
+  if (id == "") {
+    window.alert("Choose client (By pressing correct Edit button)");
+    return;
+  }
+
+  var items = [];
+  var inputs = document.querySelectorAll("input[type='checkbox']");
+  for(var i = 0; i < inputs.length; i++) {
+    if (inputs[i].checked == true) {
+      var label = document.querySelector("label[for='" + inputs[i].id + "']")
+      items.push(label.innerHTML);
+    }
+  }
+  console.log(items);
+
+  var win = window.open("", "Invoice");
+  var contact = getFullForm();
+  win.document.body.innerHTML = "<h4>Client data</h4>";
+  for(var key in contact){
+    win.document.body.innerHTML += "<p>" + key + ": " + contact[key] + "</p>";
+  }
+  win.document.body
+  win.document.body.innerHTML += "<h4>Bought items</h4>";
+  for(var el in items){
+    win.document.body.innerHTML += "<p>" + items[el] + "</p>";
+  }
+
+  clearForm();
+}
+
 function clearForm(){
     document.getElementById('id').value = '';
     document.getElementById('name').value = '';
@@ -268,7 +306,7 @@ function getContactFromForm() {
   };
 }
 
-function getFormForImage() {
+function getFullForm() {
   return {
     name: document.getElementById('name').value,
     last_name: document.getElementById('last_name').value,
