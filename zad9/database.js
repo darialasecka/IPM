@@ -269,13 +269,14 @@ function buy(){
   }
   console.log(items);
 
-  var win = window.open("", "Invoice");
+  var win = window.open("");
+  win.document.title = "Invoice";
   var contact = getFullForm();
   win.document.body.innerHTML = "<h4>Client data</h4>";
   for(var key in contact){
     win.document.body.innerHTML += "<p>" + key + ": " + contact[key] + "</p>";
   }
-  win.document.body
+  win.document.body.innerHTML += "";
   win.document.body.innerHTML += "<h4>Bought items</h4>";
   for(var el in items){
     win.document.body.innerHTML += "<p>" + items[el] + "</p>";
